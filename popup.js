@@ -5,7 +5,7 @@
  * ==========================================================================*/
 
 // ⚠️ REPLACE with your real Render service URL (must match manifest host_permissions)
-const API_BASE = "https://flow-1s6z.onrender.com/";
+const API_BASE = "https://flow-1s6z.onrender.com";
 
 const $ = sel => document.querySelector(sel);
 const $$ = sel => [...document.querySelectorAll(sel)];

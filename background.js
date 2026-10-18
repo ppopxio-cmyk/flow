@@ -9,7 +9,7 @@
  * ==========================================================================*/
 
 // ⚠️ REPLACE with your real Render service URL (must match manifest host_permissions)
-const API_BASE = "https://flow-1s6z.onrender.com/";
+const API_BASE = "https://flow-1s6z.onrender.com";
 
 const SCRIPT_ID = "unlock-flow-patch";
 const ORIGIN = "https://flow.google.com/";
