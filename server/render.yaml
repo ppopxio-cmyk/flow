@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: unlock-flow-api
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Set the rest in the Render dashboard → Environment:
+      # MONGO_URI, LICENSE_SECRET, MAIL_USER, MAIL_APP_PASSWORD, MAIL_FROM_NAME,
+      # ADMIN_EMAIL, ADMIN_PASSWORD, TRIAL_HOURS, PLAN_PRICE_ETB, PLAN_DAYS,
+      # HOLDER_NAME, TELEBIRR_NUMBER, ABYSSINIA_NUMBER, APP_URL, API_URL

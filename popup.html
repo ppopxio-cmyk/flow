@@ -1,31 +1,207 @@
 <!doctype html>
-<html lang="my">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Unlock flow</title>
+  <title>Unlock Flow</title>
   <link rel="stylesheet" href="popup.css">
 </head>
-<body>
-  <main>
-    <div class="brand">UF<span>UNLOCK FLOW</span></div>
-    <h1>Unlock flow</h1>
-    <p class="intro">Flow ကို လွယ်ကူစွာ ဝင်ပြီး refresh လုပ်နိုင်ပါတယ်။</p>
-    <section>
-      <label for="enabled">
-        Unlock Flow
-        <input id="enabled" type="checkbox" role="switch" disabled>
-      </label>
-      <p id="status" role="status">စစ်ဆေးနေသည်…</p>
+<body data-screen="status">
+  <div class="app">
+
+    <!-- ══════════════════════ STATUS ══════════════════════ -->
+    <section class="screen" data-screen="status">
+      <header class="topbar">
+        <div class="brand">UF<span>Unlock Flow</span></div>
+        <button class="chip" id="accountChip">Sign in</button>
+      </header>
+
+      <div class="card hero" id="heroCard">
+        <div class="heroIcon" id="heroIcon">⏳</div>
+        <div class="heroText">
+          <h1 id="heroTitle">Checking access…</h1>
+          <p id="heroSub">Please wait</p>
+          <div class="track" id="heroTrack" hidden><div class="fill" id="heroFill"></div></div>
+        </div>
+      </div>
+
+      <div class="card row switchRow">
+        <div>
+          <b>Unlock Flow</b>
+          <small id="switchHint">Apply the region patch</small>
+        </div>
+        <input id="enabledToggle" type="checkbox" role="switch" disabled>
+      </div>
+
+      <div class="row">
+        <button class="btn primary grow" id="enterFlow">Enter Flow</button>
+        <button class="btn ghost" id="refreshBtn">Refresh</button>
+      </div>
+
+      <button class="btn admin wide" id="openAdmin" hidden>Admin panel</button>
+
+      <footer>Unlock flow · v2.0.0</footer>
     </section>
-    <div class="tabs">
-      <button id="open">Enter Flow</button>
-      <button id="reload" class="secondary">Refresh</button>
-    </div>
-    <p id="error" role="alert"></p>
-    <a class="help" href="https://t.me/+hweR7MpWPCs0ODE1" target="_blank" rel="noopener noreferrer">Join for help</a>
-    <footer>Unlock flow · v1.0.3</footer>
-  </main>
+
+    <!-- ══════════════════════ LOGIN ══════════════════════ -->
+    <section class="screen" data-screen="login" hidden>
+      <header class="topbar">
+        <button class="iconbtn" data-back="status">‹</button>
+        <h2>Sign in</h2>
+      </header>
+
+      <div class="card form">
+        <label>Email
+          <input id="loginEmail" type="email" placeholder="you@gmail.com" autocomplete="username" spellcheck="false">
+        </label>
+        <label>Password
+          <input id="loginPassword" type="password" placeholder="••••••••" autocomplete="current-password">
+        </label>
+        <p class="formError" id="loginError" hidden></p>
+        <button class="btn primary wide" id="loginBtn">Sign in</button>
+        <p class="alt">New here? <button class="link" id="toSignup">Create an account</button></p>
+      </div>
+    </section>
+
+    <!-- ══════════════════════ SIGNUP ══════════════════════ -->
+    <section class="screen" data-screen="signup" hidden>
+      <header class="topbar">
+        <button class="iconbtn" data-back="status">‹</button>
+        <h2>Create account</h2>
+      </header>
+
+      <div class="card form">
+        <div class="badge">🎁 2-hour free trial — no payment needed</div>
+        <label>Email
+          <input id="signupEmail" type="email" placeholder="you@gmail.com" autocomplete="username" spellcheck="false">
+        </label>
+        <label>Password
+          <input id="signupPassword" type="password" placeholder="At least 8 characters" autocomplete="new-password">
+        </label>
+        <label>Confirm password
+          <input id="signupPassword2" type="password" placeholder="Repeat password" autocomplete="new-password">
+        </label>
+        <p class="formError" id="signupError" hidden></p>
+        <button class="btn primary wide" id="signupBtn">Sign up</button>
+        <p class="alt">Already have an account? <button class="link" id="toLogin">Sign in</button></p>
+      </div>
+    </section>
+
+    <!-- ══════════════════════ CODE ══════════════════════ -->
+    <section class="screen" data-screen="code" hidden>
+      <header class="topbar">
+        <button class="iconbtn" data-back="signup">‹</button>
+        <h2>Verify email</h2>
+      </header>
+
+      <div class="card form center">
+        <p class="hint">We sent a 6-digit code to<br><b id="codeEmail">you@gmail.com</b></p>
+        <div class="otp" id="otp">
+          <input maxlength="1" inputmode="numeric" pattern="[0-9]*" aria-label="Digit 1">
+          <input maxlength="1" inputmode="numeric" pattern="[0-9]*" aria-label="Digit 2">
+          <input maxlength="1" inputmode="numeric" pattern="[0-9]*" aria-label="Digit 3">
+          <input maxlength="1" inputmode="numeric" pattern="[0-9]*" aria-label="Digit 4">
+          <input maxlength="1" inputmode="numeric" pattern="[0-9]*" aria-label="Digit 5">
+          <input maxlength="1" inputmode="numeric" pattern="[0-9]*" aria-label="Digit 6">
+        </div>
+        <p class="formError" id="codeError" hidden></p>
+        <button class="btn primary wide" id="verifyBtn" disabled>Verify</button>
+        <p class="alt"><span id="resendTimer"></span><button class="link" id="resendBtn" disabled>Resend code</button></p>
+      </div>
+    </section>
+
+    <!-- ══════════════════════ DASHBOARD ══════════════════════ -->
+    <section class="screen scroll" data-screen="dashboard" hidden>
+      <header class="topbar">
+        <button class="iconbtn" data-back="status">‹</button>
+        <h2>Account</h2>
+      </header>
+
+      <div class="card plan" id="planCard">
+        <div class="planHead">
+          <div class="heroIcon small" id="planIcon">⏳</div>
+          <div>
+            <b id="planTitle">Loading…</b>
+            <small id="planEmail"></small>
+          </div>
+        </div>
+        <p id="planSub"></p>
+        <div class="track" id="planTrack" hidden><div class="fill" id="planFill"></div></div>
+      </div>
+
+      <div class="card">
+        <h3>Pay <span id="planPrice">500 ETB</span> · <span id="planDays">30</span> days</h3>
+        <div class="payItem">
+          <div class="payInfo">
+            <b>Telebirr</b>
+            <span id="telebirrNumber">—</span>
+            <small id="holderTelebirr">Hailemichael Shitaye</small>
+          </div>
+          <button class="btn tiny copy" data-copy="telebirrNumber">Copy</button>
+        </div>
+        <div class="payItem">
+          <div class="payInfo">
+            <b>Bank of Abyssinia</b>
+            <span id="abyssiniaNumber">—</span>
+            <small id="holderAbyssinia">Hailemichael Shitaye</small>
+          </div>
+          <button class="btn tiny copy" data-copy="abyssiniaNumber">Copy</button>
+        </div>
+      </div>
+
+      <div class="card form">
+        <h3>Submit receipt</h3>
+        <p class="hint left">Send the payment, then paste the <b>receipt link</b> from your bank SMS below. No screenshots.</p>
+        <label>Payment method
+          <select id="receiptMethod">
+            <option value="telebirr">Telebirr</option>
+            <option value="abyssinia">Bank of Abyssinia</option>
+          </select>
+        </label>
+        <label>Receipt link
+          <input id="receiptUrl" type="url" placeholder="https://…" spellcheck="false">
+        </label>
+        <p class="formError" id="receiptError" hidden></p>
+        <button class="btn primary wide" id="submitReceipt">Submit for review</button>
+        <p class="hint">An admin verifies it manually — access starts right after approval.</p>
+      </div>
+
+      <div class="card" id="historyCard" hidden>
+        <h3>Receipt history</h3>
+        <ul id="historyList"></ul>
+      </div>
+
+      <button class="btn ghost wide" id="signOutBtn">Sign out</button>
+      <footer>Unlock flow · v2.0.0</footer>
+    </section>
+
+    <!-- ══════════════════════ ADMIN ══════════════════════ -->
+    <section class="screen scroll" data-screen="admin" hidden>
+      <header class="topbar">
+        <button class="iconbtn" data-back="status">‹</button>
+        <h2>Admin</h2>
+      </header>
+
+      <div class="stats" id="adminStats"></div>
+
+      <div class="tabs">
+        <button class="tab active" data-atab="pending">Receipts</button>
+        <button class="tab" data-atab="users">Users</button>
+      </div>
+
+      <div id="adminPending">
+        <ul class="list" id="queueList"><li class="empty">Loading…</li></ul>
+      </div>
+
+      <div id="adminUsers" hidden>
+        <input id="userSearch" class="search" type="search" placeholder="Search email…">
+        <ul class="list" id="userList"><li class="empty">Loading…</li></ul>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
   <script src="popup.js"></script>
 </body>
 </html>

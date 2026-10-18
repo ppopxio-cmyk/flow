@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Unlock Flow",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "minimum_chrome_version": "111",
   "description": "Unlock Google Flow interface for all countries.",
   "icons": {
@@ -11,10 +11,13 @@
     "128": "icons/icon-128.png"
   },
   "permissions": [
-    "scripting"
+    "scripting",
+    "storage",
+    "alarms"
   ],
   "host_permissions": [
-    "https://flow.google.com/*"
+    "https://flow.google.com/*",
+    "https://unlock-flow-api.onrender.com/*"
   ],
   "background": {
     "service_worker": "background.js"
