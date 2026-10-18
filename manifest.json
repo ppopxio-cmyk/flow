@@ -17,7 +17,7 @@
   ],
   "host_permissions": [
     "https://flow.google.com/*",
-    "https://unlock-flow-api.onrender.com/*"
+    "https://flow-1s6z.onrender.com/*"
   ],
   "background": {
     "service_worker": "background.js"
